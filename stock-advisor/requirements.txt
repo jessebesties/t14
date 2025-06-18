@@ -1,0 +1,11 @@
+pathway
+yfinance
+torch
+transformers
+accelerate
+fastapi
+uvicorn
+python-dotenv
+requests
+pandas
+numpy

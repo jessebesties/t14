@@ -1,0 +1,146 @@
+{
+  "MSFT": {
+    "symbol": "MSFT",
+    "yfinance_data": {
+      "current_price": 478.7200012207031,
+      "company_name": "Microsoft Corporation",
+      "market_cap": 3558031228928,
+      "pe_ratio": 36.966022,
+      "volume": 5962950,
+      "day_high": 479.79998779296875,
+      "day_low": 474.4599914550781
+    },
+    "news_data": {
+      "yfinance_news": [
+        {
+          "title": "",
+          "link": "",
+          "published": "",
+          "summary": ""
+        },
+        {
+          "title": "",
+          "link": "",
+          "published": "",
+          "summary": ""
+        },
+        {
+          "title": "",
+          "link": "",
+          "published": "",
+          "summary": ""
+        },
+        {
+          "title": "",
+          "link": "",
+          "published": "",
+          "summary": ""
+        },
+        {
+          "title": "",
+          "link": "",
+          "published": "",
+          "summary": ""
+        }
+      ],
+      "scraped_content": []
+    },
+    "timestamp": "2025-06-18T13:41:00.817994"
+  },
+  "AAPL": {
+    "symbol": "AAPL",
+    "yfinance_data": {
+      "current_price": 196.24000549316406,
+      "company_name": "Apple Inc.",
+      "market_cap": 2931001393152,
+      "pe_ratio": 30.566978,
+      "volume": 18387217,
+      "day_high": 197.57000732421875,
+      "day_low": 195.07000732421875
+    },
+    "news_data": {
+      "yfinance_news": [
+        {
+          "title": "",
+          "link": "",
+          "published": "",
+          "summary": ""
+        },
+        {
+          "title": "",
+          "link": "",
+          "published": "",
+          "summary": ""
+        },
+        {
+          "title": "",
+          "link": "",
+          "published": "",
+          "summary": ""
+        },
+        {
+          "title": "",
+          "link": "",
+          "published": "",
+          "summary": ""
+        },
+        {
+          "title": "",
+          "link": "",
+          "published": "",
+          "summary": ""
+        }
+      ],
+      "scraped_content": []
+    },
+    "timestamp": "2025-06-18T13:41:01.640302"
+  },
+  "GOOGL": {
+    "symbol": "GOOGL",
+    "yfinance_data": {
+      "current_price": 175.52029418945312,
+      "company_name": "Alphabet Inc.",
+      "market_cap": 2136871796736,
+      "pe_ratio": 19.58932,
+      "volume": 12793094,
+      "day_high": 176.55999755859375,
+      "day_low": 174.8800048828125
+    },
+    "news_data": {
+      "yfinance_news": [
+        {
+          "title": "",
+          "link": "",
+          "published": "",
+          "summary": ""
+        },
+        {
+          "title": "",
+          "link": "",
+          "published": "",
+          "summary": ""
+        },
+        {
+          "title": "",
+          "link": "",
+          "published": "",
+          "summary": ""
+        },
+        {
+          "title": "",
+          "link": "",
+          "published": "",
+          "summary": ""
+        },
+        {
+          "title": "",
+          "link": "",
+          "published": "",
+          "summary": ""
+        }
+      ],
+      "scraped_content": []
+    },
+    "timestamp": "2025-06-18T13:41:02.425135"
+  }
+}

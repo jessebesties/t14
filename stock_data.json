@@ -1,0 +1,142 @@
+{
+  "MSFT": {
+    "symbol": "MSFT",
+    "current_price": 478.69000244140625,
+    "company_name": "Microsoft Corporation",
+    "market_cap": 3557882593280,
+    "pe_ratio": 36.96448,
+    "volume": 5940294,
+    "day_high": 479.79998779296875,
+    "day_low": 474.4599914550781,
+    "recent_news": [
+      {
+        "title": "",
+        "link": "",
+        "published": ""
+      },
+      {
+        "title": "",
+        "link": "",
+        "published": ""
+      },
+      {
+        "title": "",
+        "link": "",
+        "published": ""
+      }
+    ],
+    "timestamp": "2025-06-18T13:39:24.397557"
+  },
+  "AAPL": {
+    "symbol": "AAPL",
+    "current_price": 196.23019409179688,
+    "company_name": "Apple Inc.",
+    "market_cap": 2931001393152,
+    "pe_ratio": 30.566978,
+    "volume": 18336399,
+    "day_high": 197.57000732421875,
+    "day_low": 195.07000732421875,
+    "recent_news": [
+      {
+        "title": "",
+        "link": "",
+        "published": ""
+      },
+      {
+        "title": "",
+        "link": "",
+        "published": ""
+      },
+      {
+        "title": "",
+        "link": "",
+        "published": ""
+      }
+    ],
+    "timestamp": "2025-06-18T13:39:25.243983"
+  },
+  "GOOGL": {
+    "symbol": "GOOGL",
+    "current_price": 175.41000366210938,
+    "company_name": "Alphabet Inc.",
+    "market_cap": 2135529095168,
+    "pe_ratio": 19.57701,
+    "volume": 12750705,
+    "day_high": 176.55999755859375,
+    "day_low": 174.8800048828125,
+    "recent_news": [
+      {
+        "title": "",
+        "link": "",
+        "published": ""
+      },
+      {
+        "title": "",
+        "link": "",
+        "published": ""
+      },
+      {
+        "title": "",
+        "link": "",
+        "published": ""
+      }
+    ],
+    "timestamp": "2025-06-18T13:39:26.067601"
+  },
+  "TSLA": {
+    "symbol": "TSLA",
+    "current_price": 321.8999938964844,
+    "company_name": "Tesla, Inc.",
+    "market_cap": 1036827033600,
+    "pe_ratio": 185.0,
+    "volume": 63418611,
+    "day_high": 329.29998779296875,
+    "day_low": 315.45001220703125,
+    "recent_news": [
+      {
+        "title": "",
+        "link": "",
+        "published": ""
+      },
+      {
+        "title": "",
+        "link": "",
+        "published": ""
+      },
+      {
+        "title": "",
+        "link": "",
+        "published": ""
+      }
+    ],
+    "timestamp": "2025-06-18T13:39:27.050308"
+  },
+  "AMZN": {
+    "symbol": "AMZN",
+    "current_price": 214.75,
+    "company_name": "Amazon.com, Inc.",
+    "market_cap": 2279659536384,
+    "pe_ratio": 34.972313,
+    "volume": 17567460,
+    "day_high": 217.9600067138672,
+    "day_low": 214.52000427246094,
+    "recent_news": [
+      {
+        "title": "",
+        "link": "",
+        "published": ""
+      },
+      {
+        "title": "",
+        "link": "",
+        "published": ""
+      },
+      {
+        "title": "",
+        "link": "",
+        "published": ""
+      }
+    ],
+    "timestamp": "2025-06-18T13:39:27.955767"
+  }
+}
