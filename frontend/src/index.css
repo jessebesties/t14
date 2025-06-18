@@ -1,0 +1,207 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* FinBot Trading Theme - Enhanced professional design */
+
+@layer base {
+  :root {
+    --background: 6 10% 4%;
+    --foreground: 213 31% 91%;
+
+    --card: 8 12% 8%;
+    --card-foreground: 213 31% 91%;
+
+    --popover: 8 12% 12%;
+    --popover-foreground: 213 31% 91%;
+
+    --primary: 142 76% 36%;
+    --primary-foreground: 355 7% 97%;
+
+    --secondary: 8 12% 12%;
+    --secondary-foreground: 213 31% 91%;
+
+    --muted: 8 12% 10%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 8 12% 15%;
+    --accent-foreground: 213 31% 91%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 355 7% 97%;
+
+    --border: 8 12% 15%;
+    --input: 8 12% 12%;
+    --ring: 142 76% 36%;
+
+    --radius: 0.75rem;
+
+    /* Enhanced trading colors */
+    --bull-green: 142 76% 36%;
+    --bear-red: 0 84% 60%;
+    --neutral-gray: 215 20% 65%;
+    --warning-orange: 25 95% 53%;
+    --info-blue: 217 91% 60%;
+    --chart-bg: 8 12% 6%;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(8 15% 6%) 100%);
+  }
+}
+
+/* Enhanced trading-specific styles */
+.price-up {
+  @apply text-green-400 font-semibold;
+  text-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
+}
+
+.price-down {
+  @apply text-red-400 font-semibold;
+  text-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
+}
+
+.price-neutral {
+  @apply text-gray-400 font-medium;
+}
+
+.market-pulse {
+  animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+.data-stream {
+  @apply font-mono text-sm transition-all duration-200;
+}
+
+.data-stream:hover {
+  @apply bg-accent/50 rounded px-2 py-1;
+}
+
+.breaking-news {
+  @apply border-l-4 border-orange-500 bg-gradient-to-r from-orange-500/10 to-transparent backdrop-blur-sm;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.1);
+}
+
+.high-impact {
+  @apply border-l-4 border-red-500 bg-gradient-to-r from-red-500/10 to-transparent backdrop-blur-sm;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.1);
+}
+
+.medium-impact {
+  @apply border-l-4 border-yellow-500 bg-gradient-to-r from-yellow-500/10 to-transparent backdrop-blur-sm;
+  box-shadow: 0 4px 12px rgba(234, 179, 8, 0.1);
+}
+
+.low-impact {
+  @apply border-l-4 border-green-500 bg-gradient-to-r from-green-500/10 to-transparent backdrop-blur-sm;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.1);
+}
+
+/* Glass morphism effects */
+.glass-card {
+  @apply bg-card/60 backdrop-blur-xl border border-border/50;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.trading-card {
+  @apply bg-gradient-to-br from-card to-card/80 border border-border/30 backdrop-blur-sm;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.trading-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Interactive buttons */
+.action-button {
+  @apply bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70;
+  @apply transition-all duration-200 transform hover:scale-105 active:scale-95;
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.3);
+}
+
+.action-button:hover {
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+}
+
+/* Chart-like grid background */
+.chart-bg {
+  background-image: 
+    linear-gradient(rgba(34, 197, 94, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 197, 94, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Animated gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #22c55e, #3b82f6, #8b5cf6);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 3s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--accent));
+}
+
+/* Loading animations */
+.skeleton {
+  background: linear-gradient(90deg, 
+    hsl(var(--muted)) 25%, 
+    hsl(var(--accent)) 50%, 
+    hsl(var(--muted)) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Notification badge */
+.notification-badge {
+  @apply absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center;
+  animation: badge-pulse 2s infinite;
+}
+
+@keyframes badge-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
