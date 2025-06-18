@@ -14,7 +14,15 @@ app = FastAPI(title="Stock Advisor API", version="1.0.0")
 # Enable CORS for frontend integration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Configure this properly for production
+    allow_origins=[
+        "http://localhost:3000", 
+        "http://localhost:5173", 
+        "http://localhost:5174",  # Sometimes Vite uses this port
+        "http://127.0.0.1:3000", 
+        "http://127.0.0.1:5173",
+        "http://127.0.0.1:5174",
+        "*"  # Allow all origins for development (remove in production)
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -64,7 +72,6 @@ async def chat_endpoint(request: dict):
         
         # Check for exact ticker matches
         for word in words:
-            # Remove common punctuation
             clean_word = word.strip(".,!?()[]")
             if clean_word in common_tickers:
                 ticker = clean_word
@@ -95,11 +102,11 @@ async def chat_endpoint(request: dict):
         if not ticker:
             return {
                 "success": True,
-                "response": "Please mention a stock ticker (like AAPL, MSFT, GOOGL, TSLA, NVDA) or company name and I'll analyze it for you!",
+                "response": "🤖 **FinBot here!** \n\nI can analyze stocks and provide market insights. Please mention a stock ticker like:\n\n• **AAPL** (Apple)\n• **TSLA** (Tesla) \n• **NVDA** (Nvidia)\n• **MSFT** (Microsoft)\n• **GOOGL** (Google)\n\nTry asking: *\"What do you think about AAPL?\"* or *\"Analyze TSLA for me\"*",
                 "data": None
             }
         
-        print(f"Analyzing ticker: {ticker}")  # Debug log
+        print(f"Analyzing ticker: {ticker}")
         
         # Get analysis
         analysis = pipeline.get_latest_analysis(ticker)
@@ -107,22 +114,35 @@ async def chat_endpoint(request: dict):
         if "error" in analysis:
             return {
                 "success": False,
-                "response": f"Sorry, I couldn't analyze {ticker} right now. Please try again later.",
+                "response": f"❌ **Analysis Error**\n\nSorry, I couldn't analyze **{ticker}** right now. This could be due to:\n\n• Market is closed\n• Invalid ticker symbol\n• Data service temporarily unavailable\n\nPlease try again later or try a different stock.",
                 "data": None
             }
         
-        # Format response for chat
-        response = f"""📊 **{ticker} Analysis**
+        # Format response for chat - enhanced with emojis and better structure
+        confidence_emoji = "🟢" if analysis['confidence'] == "High" else "🟡" if analysis['confidence'] == "Medium" else "🔴"
+        recommendation_emoji = "📈" if analysis['recommendation'] == "BUY" else "📉" if analysis['recommendation'] == "SELL" else "➡️"
+        sentiment_emoji = "😊" if analysis.get('avg_sentiment_score', 0) > 0.1 else "😟" if analysis.get('avg_sentiment_score', 0) < -0.1 else "😐"
+        
+        response = f"""📊 **{ticker} Stock Analysis**
+
+{recommendation_emoji} **Recommendation:** {analysis['recommendation']}
 
 💰 **Current Price:** ${analysis['current_price']:.2f} ({analysis['price_change_pct']:+.1f}%)
 
-🎯 **Recommendation:** {analysis['recommendation']}
-
 📝 **Reasoning:** {analysis['reasoning']}
 
-🎚️ **Confidence:** {analysis['confidence']}
+{confidence_emoji} **Confidence:** {analysis['confidence']}
 
-_Analysis updated at {analysis['timestamp']}_"""
+{sentiment_emoji} **News Sentiment:** {analysis.get('positive_news_count', 0)} positive, {analysis.get('negative_news_count', 0)} negative ({analysis.get('total_news_count', 0)} total articles)
+
+📰 **Recent Headlines:**"""
+
+        # Add top headlines if available
+        headlines = analysis.get('top_headlines', [])
+        for i, headline in enumerate(headlines[:2], 1):
+            response += f"\n{i}. {headline[:80]}{'...' if len(headline) > 80 else ''}"
+
+        response += f"\n\n⏰ *Analysis updated at {analysis['timestamp']} • Powered by Pathway + yfinance*"
         
         return {
             "success": True,
@@ -131,10 +151,10 @@ _Analysis updated at {analysis['timestamp']}_"""
         }
         
     except Exception as e:
-        print(f"Error in chat endpoint: {e}")  # Debug log
+        print(f"Error in chat endpoint: {e}")
         return {
             "success": False,
-            "response": "Sorry, I encountered an error while processing your request.",
+            "response": "🚨 **System Error**\n\nI encountered an unexpected error while processing your request. Please try again in a moment.",
             "data": None,
             "error": str(e)
         }
