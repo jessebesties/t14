@@ -88,7 +88,7 @@ class StockETLPipeline:
             # Enhanced recommendation logic based on news sentiment
             if not news_data:
                 recommendation = "HOLD"
-                reasoning = f"Limited news data for {ticker}. Price at ${price_data['current_price']:.2f} ({price_data['price_change_pct']:+.1f}%). Recommend waiting for more information."
+                reasoning = f"There isn't much news flow around {ticker} right now, which makes it tricky to get a strong read on market sentiment. With the stock trading at ${price_data['current_price']:.2f}, I'd suggest waiting for more information before making any big moves."
             else:
                 # Calculate news metrics
                 sentiment_scores = [article['sentiment_score'] for article in news_data]
@@ -100,28 +100,23 @@ class StockETLPipeline:
                 # Decision logic based on news sentiment
                 if avg_sentiment > 0.1 and positive_count >= negative_count:
                     recommendation = "BUY"
-                    reasoning = f"Strong positive news sentiment for {ticker} ({positive_count} positive vs {negative_count} negative articles). "
-                    reasoning += f"Average sentiment score: {avg_sentiment:.2f}. Price: ${price_data['current_price']:.2f} ({price_data['price_change_pct']:+.1f}%)."
+                    reasoning = f"The sentiment around {ticker} is really encouraging right now. I'm seeing {positive_count} positive stories compared to just {negative_count} negative ones, which suggests the market mood is quite optimistic. The overall sentiment score of {avg_sentiment:.2f} reinforces this bullish outlook."
                     
                 elif avg_sentiment < -0.1 and negative_count > positive_count:
                     recommendation = "SELL"
-                    reasoning = f"Negative news sentiment for {ticker} ({negative_count} negative vs {positive_count} positive articles). "
-                    reasoning += f"Average sentiment score: {avg_sentiment:.2f}. Price: ${price_data['current_price']:.2f} ({price_data['price_change_pct']:+.1f}%)."
+                    reasoning = f"I'm seeing some concerning patterns in the news coverage for {ticker}. With {negative_count} negative articles outweighing {positive_count} positive ones, and an overall sentiment score of {avg_sentiment:.2f}, it feels like there might be some headwinds ahead."
                     
                 elif strong_sentiment_count >= 2:
                     if avg_sentiment > 0:
                         recommendation = "BUY"
-                        reasoning = f"Multiple strong positive signals in news for {ticker}. "
+                        reasoning = f"What's interesting here is that I'm picking up {strong_sentiment_count} really strong sentiment signals in the news, which tends to be a good indicator. Even though the overall picture might be mixed, these strong positive signals could mean something big is brewing."
                     else:
                         recommendation = "HOLD"
-                        reasoning = f"Mixed but strong sentiment signals for {ticker}. "
-                    reasoning += f"Price: ${price_data['current_price']:.2f} ({price_data['price_change_pct']:+.1f}%). Proceed with caution."
+                        reasoning = f"There are {strong_sentiment_count} strong sentiment signals in the news, but they're pointing in different directions. When I see this kind of conflicting but intense coverage, I usually think it's better to wait and see how things settle out."
                     
                 else:
                     recommendation = "HOLD"
-                    reasoning = f"Mixed or neutral news sentiment for {ticker}. "
-                    reasoning += f"Price: ${price_data['current_price']:.2f} ({price_data['price_change_pct']:+.1f}%). "
-                    reasoning += f"Wait for clearer signals ({positive_count} positive, {negative_count} negative articles)."
+                    reasoning = f"The news sentiment is pretty balanced right now - {positive_count} positive articles, {negative_count} negative ones. When things are this evenly split, I typically recommend taking a wait-and-see approach rather than making any hasty decisions."
             
             # Get sample news headlines for context
             top_headlines = [article['title'] for article in news_data[:3]]

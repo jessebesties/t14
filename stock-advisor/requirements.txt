@@ -9,3 +9,5 @@ python-dotenv
 requests
 pandas
 numpy
+newsapi-python
+feedparser

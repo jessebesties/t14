@@ -102,7 +102,7 @@ async def chat_endpoint(request: dict):
         if not ticker:
             return {
                 "success": True,
-                "response": "🤖 **FinBot here!** \n\nI can analyze stocks and provide market insights. Please mention a stock ticker like:\n\n• **AAPL** (Apple)\n• **TSLA** (Tesla) \n• **NVDA** (Nvidia)\n• **MSFT** (Microsoft)\n• **GOOGL** (Google)\n\nTry asking: *\"What do you think about AAPL?\"* or *\"Analyze TSLA for me\"*",
+                "response": "Hey there! I'm your AI market analyst, and I'd love to help you understand what's happening in the markets. I can dive deep into any stock you're curious about - just mention a ticker symbol like AAPL for Apple, TSLA for Tesla, or NVDA for Nvidia. I'll analyze the latest price movements, dig through recent news, and give you my honest take on whether it might be a good time to buy, sell, or hold. What stock has caught your attention lately?",
                 "data": None
             }
         
@@ -114,39 +114,87 @@ async def chat_endpoint(request: dict):
         if "error" in analysis:
             return {
                 "success": False,
-                "response": f"❌ **Analysis Error**\n\nSorry, I couldn't analyze **{ticker}** right now. This could be due to:\n\n• Market is closed\n• Invalid ticker symbol\n• Data service temporarily unavailable\n\nPlease try again later or try a different stock.",
+                "response": f"I'm having some trouble pulling the latest data for {ticker} right now. This sometimes happens when markets are closed or if there's a temporary glitch with the data feeds. Give me a moment and try asking about {ticker} again, or feel free to ask about a different stock in the meantime.",
                 "data": None
             }
         
-        # Format response for chat - enhanced with emojis and better structure
-        confidence_emoji = "🟢" if analysis['confidence'] == "High" else "🟡" if analysis['confidence'] == "Medium" else "🔴"
-        recommendation_emoji = "📈" if analysis['recommendation'] == "BUY" else "📉" if analysis['recommendation'] == "SELL" else "➡️"
-        sentiment_emoji = "😊" if analysis.get('avg_sentiment_score', 0) > 0.1 else "😟" if analysis.get('avg_sentiment_score', 0) < -0.1 else "😐"
+        # Create natural, conversational response
+        company_names = {
+            "AAPL": "Apple", "MSFT": "Microsoft", "GOOGL": "Google", 
+            "TSLA": "Tesla", "NVDA": "Nvidia", "AMZN": "Amazon",
+            "META": "Meta", "NFLX": "Netflix", "AMD": "AMD", "INTC": "Intel"
+        }
         
-        response = f"""📊 **{ticker} Stock Analysis**
-
-{recommendation_emoji} **Recommendation:** {analysis['recommendation']}
-
-💰 **Current Price:** ${analysis['current_price']:.2f} ({analysis['price_change_pct']:+.1f}%)
-
-📝 **Reasoning:** {analysis['reasoning']}
-
-{confidence_emoji} **Confidence:** {analysis['confidence']}
-
-{sentiment_emoji} **News Sentiment:** {analysis.get('positive_news_count', 0)} positive, {analysis.get('negative_news_count', 0)} negative ({analysis.get('total_news_count', 0)} total articles)
-
-📰 **Recent Headlines:**"""
-
-        # Add top headlines if available
+        company_name = company_names.get(ticker, ticker)
+        
+        # Start with current situation
+        price_change_desc = ""
+        if analysis['price_change_pct'] > 2:
+            price_change_desc = f"having a strong day, up {analysis['price_change_pct']:.1f}%"
+        elif analysis['price_change_pct'] > 0.5:
+            price_change_desc = f"trending upward, gaining {analysis['price_change_pct']:.1f}%"
+        elif analysis['price_change_pct'] < -2:
+            price_change_desc = f"under pressure today, down {analysis['price_change_pct']:.1f}%"
+        elif analysis['price_change_pct'] < -0.5:
+            price_change_desc = f"dipping slightly, down {analysis['price_change_pct']:.1f}%"
+        else:
+            price_change_desc = f"trading relatively flat, {analysis['price_change_pct']:+.1f}%"
+        
+        # News sentiment context
+        positive_news = analysis.get('positive_news_count', 0)
+        negative_news = analysis.get('negative_news_count', 0)
+        total_news = analysis.get('total_news_count', 0)
+        
+        news_context = ""
+        if total_news > 0:
+            if positive_news > negative_news:
+                news_context = f"The news flow has been quite positive lately, with {positive_news} upbeat articles versus {negative_news} negative ones. "
+            elif negative_news > positive_news:
+                news_context = f"There's been some concerning news recently, with {negative_news} negative articles outweighing {positive_news} positive ones. "
+            else:
+                news_context = f"The news has been mixed, with roughly equal positive and negative coverage across {total_news} recent articles. "
+        
+        # Headlines context
         headlines = analysis.get('top_headlines', [])
-        for i, headline in enumerate(headlines[:2], 1):
-            response += f"\n{i}. {headline[:80]}{'...' if len(headline) > 80 else ''}"
-
-        response += f"\n\n⏰ *Analysis updated at {analysis['timestamp']} • Powered by Pathway + yfinance*"
+        headline_context = ""
+        if headlines:
+            headline_context = f"Recent headlines include stories like '{headlines[0][:60]}...'" if len(headlines[0]) > 60 else f"Recent headlines include '{headlines[0]}'"
+            if len(headlines) > 1:
+                headline_context += f" and '{headlines[1][:50]}...'" if len(headlines[1]) > 50 else f" and '{headlines[1]}'"
+            headline_context += ". "
+        
+        # Confidence explanation
+        confidence_explanation = ""
+        if analysis['confidence'] == "High":
+            confidence_explanation = "I'm quite confident in this assessment because the signals from both price action and news sentiment are aligning well."
+        elif analysis['confidence'] == "Medium":
+            confidence_explanation = "I'd say I'm moderately confident here - there are some good indicators, but I'd keep an eye on how things develop."
+        else:
+            confidence_explanation = "I'm being cautious with this one since the signals are a bit mixed or unclear right now."
+        
+        # Recommendation with natural language
+        recommendation_text = ""
+        if analysis['recommendation'] == "BUY":
+            recommendation_text = "Based on what I'm seeing, I think this could be a good buying opportunity. "
+        elif analysis['recommendation'] == "SELL":
+            recommendation_text = "Honestly, I'd be inclined to sell or avoid this one for now. "
+        else:
+            recommendation_text = "I think the best move here is to hold tight and wait for clearer signals. "
+        
+        # Construct the full response
+        response = f"Looking at {company_name} right now, it's {price_change_desc} to ${analysis['current_price']:.2f}. {news_context}{headline_context}{recommendation_text}{analysis['reasoning']} {confidence_explanation}"
+        
+        # Add a personal touch
+        if analysis['recommendation'] == "BUY":
+            response += " Of course, this is just my analysis based on current data - always do your own research and consider your risk tolerance!"
+        elif analysis['recommendation'] == "SELL":
+            response += " That said, markets can be unpredictable, so this is just my take based on current information."
+        else:
+            response += " Sometimes patience is the best strategy in investing."
         
         return {
             "success": True,
-            "response": response.strip(),
+            "response": response,
             "data": analysis
         }
         
@@ -154,7 +202,7 @@ async def chat_endpoint(request: dict):
         print(f"Error in chat endpoint: {e}")
         return {
             "success": False,
-            "response": "🚨 **System Error**\n\nI encountered an unexpected error while processing your request. Please try again in a moment.",
+            "response": "Oops, I ran into a technical hiccup while analyzing that for you. These things happen sometimes with live market data. Mind giving it another shot in a moment?",
             "data": None,
             "error": str(e)
         }
